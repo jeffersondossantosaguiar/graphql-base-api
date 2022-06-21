@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    container_name: 'database'
+    volumes:
+      - pg-data:/postgresql/data
+    environment:
+      POSTGRES_USER: api-base
+      POSTGRES_PASSWORD: api-base
+      POSTGRES_DB: api-base
+
+volumes:
+  pg-data:
