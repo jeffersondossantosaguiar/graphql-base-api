@@ -12,25 +12,32 @@ export class UsersResolver {
   ) {}
 
   @Query(() => [User])
-  users() {
-    return this.usersService.listAllUsers();
+  async users() {
+    return await this.usersService.listAllUsers();
   }
 
   @Query(() => User)
-  user(@Args('id') id: string) {
-    return this.usersService.getUserById(id);
+  async user(@Args('id') id: string) {
+    return await this.usersService.getUserById(id);
   }
 
   @Mutation(() => User)
-  createUser(@Args('data') data: CreateUserInput) {
-    return this.usersService.createUser(data);
+  async createUser(@Args('data') data: CreateUserInput) {
+    return await this.usersService.createUser(data);
   }
 
   @Mutation(() => User)
-  updateUser(
+  async updateUser(
     @Args('id') id: string,
     @Args('data') data: UpdateUserInput
   ) {
-    return this.usersService.updateUser(id, data);
+    return await this.usersService.updateUser(id, data);
+  }
+
+  @Mutation(() => User)
+  async deleteUser(
+    @Args('id') id: string,
+  ) {
+    return await this.usersService.deleteUser(id);
   }
 }

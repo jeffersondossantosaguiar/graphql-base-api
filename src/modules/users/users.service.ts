@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '../../infra/database/prisma/prisma.service';
 import { CreateUserInput } from './create-user.input';
 import { UpdateUserInput } from './update-user.input';
+import { User } from './user';
 
 @Injectable()
 export class UsersService {
@@ -9,15 +10,13 @@ export class UsersService {
     private prisma: PrismaService
   ) {}
 
-  listAllUsers() {
-    return this.prisma.user.findMany();
+  async listAllUsers(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
 
-  getUserById(id: string) {
-    const user = this.prisma.user.findUnique({
-      where: {
-        id
-      }
+  async getUserById(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id }
     });
 
     if (!user)
@@ -26,7 +25,7 @@ export class UsersService {
     return user;
   }
 
-  async createUser(data: CreateUserInput) {
+  async createUser(data: CreateUserInput): Promise<User> {
 
     const user = await this.prisma.user.findUnique({
       where: {
@@ -45,24 +44,34 @@ export class UsersService {
 
   }
 
-  async updateUser(id: string, data: UpdateUserInput) {
+  async updateUser(id: string, data: UpdateUserInput): Promise<User> {
 
     const user = await this.prisma.user.findUnique({
-      where: {
-        id
-      }
+      where: { id }
     });
 
     if (!user)
       throw new BadRequestException('User not found');
 
     return await this.prisma.user.update({
-      where: {
-        id
-      },
+      where: { id },
       data: {
         ...data
       }
+    });
+  }
+
+  async deleteUser(id: string) {
+
+    const user = await this.prisma.user.count({
+      where: { id }
+    });
+
+    if (!user)
+      throw new BadRequestException(`User not found to delete`);
+
+    return await this.prisma.user.delete({
+      where: { id }
     });
   }
 
