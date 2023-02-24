@@ -12,6 +12,7 @@ import { HttpModule } from './infra/http/http.module';
     GraphQLModule.forRoot({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      debug: true,
     }),
     HttpModule,
     DatabaseModule,

@@ -10,6 +10,15 @@ export class User {
   id?: string;
 
   @Field()
+  isActive?: boolean;
+
+  @Field()
+  createdAt?: Date;
+
+  @Field()
+  updatedAt?: Date;
+
+  @Field()
   email: string;
 
   @Field()
