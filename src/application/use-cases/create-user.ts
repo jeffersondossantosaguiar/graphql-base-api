@@ -12,11 +12,15 @@ export class CreateUserUseCase {
     return this.userRepository.create(user);
   }
 
-  private getEntityFromPayload(payload: CreateUserInput): User {
+  private getEntityFromPayload({
+    email,
+    name,
+    password,
+  }: CreateUserInput): User {
     return new User({
-      email: payload.email,
-      name: payload.name,
-      password: payload.password,
+      email,
+      name,
+      password,
     });
   }
 }
